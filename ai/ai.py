@@ -75,7 +75,6 @@ class AI():
         results = {}
         c = 0
         for detection in output[0].transpose((1, 0)):
-            print(detection)
             c += 1
             scores = detection[4:]
             class_id = np.argmax(scores)
@@ -89,8 +88,6 @@ class AI():
                         "confidence": confidence,
                         "box": [x, y, w, h]
                     }
-        print(c)
-        time.sleep(20)
         # แปลง dictionary เป็น list เพื่อคืนค่า
         final_results = [{"class": k, **v} for k, v in results.items()]
         return final_results

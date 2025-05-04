@@ -3,17 +3,23 @@ import requests
 import logging
 import base64
 import os
+from dotenv import load_dotenv
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(name)s] %(levelname)s - %(message)s')
 
 class Client:
     def __init__(self):
+
+        load_dotenv()
+
         self.__logger = logging.getLogger("Client")
-        self.__api_key:str = "AIzaSyAKfp0RSOOZAi3X_9L_Uaq1I7CQp_dhxdI"
+        self.__api_key:str = os.getenv("SERVER_API_KEY")
         self.id_token:str = ""
         self.message = ""
         
         self.id:str=None
+
+        self.host = f'http://{os.getenv("SERVER_HOST")}:{os.getenv("SERVER_PORT")}'
 
     def login(self, email: str, password: str) -> dict:
         payload = {"email": email, "password": password, "returnSecureToken": True}
@@ -37,8 +43,7 @@ class Client:
     
     def __verify_token(self,token:str) -> dict:
         try:
-            url = "http://116.206.127.185:80/verify"
-            # url = "http://127.0.0.1:5000/verify"
+            url = f"{self.host}/verify"
             payload = {"idToken": token}
             response = requests.post(url, json=payload)
             if response:
@@ -61,7 +66,7 @@ class Client:
         
     def save_history(self,img_base64:str) -> dict:
         try:
-            url = "http://116.206.127.185:80/history"
+            url = f"{self.host}/history"
             payload = {"idToken": self.id_token, "img_base64": img_base64}
             response = requests.post(url, json=payload)
             if response:

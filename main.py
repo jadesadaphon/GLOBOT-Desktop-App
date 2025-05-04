@@ -1,9 +1,9 @@
-from Lib.ai import AI
-from Lib.globot import gloBot
-from Lib.timeapi import TimeApi
-from Lib.client import Client
-from Lib.gui import GUI
-from Lib.localbase import SqliteDB
+from ai import AI
+from globot import gloBot
+from timeapi import TimeApi
+from client import Client
+from gui import GUI
+from localbase import SqliteDB
 from tkinter import messagebox
 from adbutils import adb
 import customtkinter

@@ -1,6 +1,6 @@
 import threading
-from Lib.ai import AI
-from Lib.timeapi import TimeApi
+from ai import AI
+from timeapi import TimeApi
 import cv2
 from adbutils import adb
 import logging
@@ -12,8 +12,8 @@ from datetime import datetime
 import os
 import subprocess
 import base64
-from Lib.gui import GUI
-from Lib.client import Client
+from gui import GUI
+from client import Client
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] ["GLoBot"] [%(name)s] %(levelname)s - %(message)s')
 
@@ -67,7 +67,7 @@ class gloBot(threading.Thread):
 
         self.__disable_animation_with_su()
         
-        # self.__open_paotang()
+        self.__open_paotang()
         
         while self.running.is_set():
             try:
@@ -81,9 +81,9 @@ class gloBot(threading.Thread):
                         detected_classes = {detection['class'] for detection in detections}
 
                         if all(p in detected_classes for p in ["pin1","pin2","pin3","pin4","pin5","pin6","pin7","pin8","pin9","pin0","pindel"]):
-                            delay = self.__data["password_delay"] if self.wait_pin_confirm else 0
+                            delay = self.__data["password_delay"] if self.wait_pin_confirm else 0.100
                             self.__login(detections,self.__data["password"],delay=delay)
-                            time.sleep(0.5) if self.wait_pin_confirm else time.sleep(1)
+                            time.sleep(1) if self.wait_pin_confirm else time.sleep(1)
                                 
                         if all(p in detected_classes for p in ["pthome"]):
                             self.__open_glo_page()
@@ -326,6 +326,9 @@ class gloBot(threading.Thread):
 
     def __open_glo_page(self):
         self.__device.shell("su -c 'am start -n com.ktb.customer.qr/.feature.gloflutter.ui.main.home.GloFlutterMainActivity'")
+        # self.__device.shell("su -c 'am start -n com.ktb.customer.qr/.feature.glo.ui.dispatcher.GloWebViewDispatcherActivity'")
+        # self.__device.shell("su -c 'am start -n com.ktb.customer.qr/.feature.glo.ui.web.GloWebViewActivity'")
+        # self.__device.shell("su -c 'am start -n com.ktb.customer.qr/.feature.glo.ui.nogwallet.GloNoGWalletActivity'")
 
     def __open_paotang(self):
         self.__device.shell("su -c 'am start -n com.ktb.customer.qr/.feature.ekyc.ui.splashscreen.EkycSplashScreenActivity'")

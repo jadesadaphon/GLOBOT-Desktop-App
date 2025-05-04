@@ -16,9 +16,9 @@ class GUI(customtkinter.CTk):
         self.title("GLOBOT V1")
 
         if hasattr(sys, "_MEIPASS"):
-            temp_icon_path = os.path.join(sys._MEIPASS, "Lib/gui/icons/icon.ico")
+            temp_icon_path = os.path.join(sys._MEIPASS, "gui/icons/icon.ico")
         else:
-            temp_icon_path = "Lib/gui/icons/icon.ico"
+            temp_icon_path = "gui/icons/icon.ico"
 
         if not os.path.exists(temp_icon_path):
             raise FileNotFoundError(f"Icon file not found: {temp_icon_path}")
